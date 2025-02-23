@@ -12,15 +12,17 @@ i. From the dashboard menu on the left side, click on new item
 
 ii. Create a pipeline job and name it "My pipeline job"
 
-<img width="1325" alt="image" src="https://github.com/user-attachments/assets/ae485151-ecc3-4933-b529-76ad3b6d867d" />
+<img width="1439" alt="image" src="https://github.com/user-attachments/assets/5c423a6c-0758-47be-bec5-af591a6e0d44" />
 
 
 **Configure Build Trigger**
 
 i. Click "Configure" your job and add this configurations
+
 ii. Click on build trigger to configure triggering the job from GitHub webhook
 
-<img width="1261" alt="image" src="https://github.com/user-attachments/assets/72a0b8b3-b832-4793-bce1-0717d6d93f2c" />
+<img width="1048" alt="image" src="https://github.com/user-attachments/assets/b266e5e8-11eb-4435-ab9b-57ee911244ba" />
+
 
 iii. Create a github webhook using jenkins ip address and port
 
@@ -37,31 +39,31 @@ and other configurations while scripted syntax provides more flexibility and is 
 
 ```
 
-pipeline \{
+pipeline {
     agent any
 
-    stages \{
-        stage('Connect To Github') \{
-            steps \{
-                    checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/goti13/jenkins-scm.git']])
-            \}
-        \}
-        stage('Build Docker Image') \{
-            steps \{
-                script \{
-                    sh 'docker build -t dockerfile .'
-                \}
-            \}
-        \}
-        stage('Run Docker Container') \{
-            steps \{
-                script \{
-                    sh 'docker run -itd -p 8081:80 dockerfile'
-                \}
-            \}
-        \}
-    \}
-\}
+    stages {
+        stage('Connect To Github') {
+            steps {
+                git branch: 'main', url: 'https://github.com/goti13/jenkins-scm.git'
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    sh 'docker build -t myapp .'
+                }
+            }
+        }
+        stage('Run Docker Container') {
+            steps {
+                script {
+                    sh 'docker run -itd -p 8081:80 myapp'
+                }
+            }
+        }
+    }
+}
 
 ```
 
@@ -85,9 +87,9 @@ Specifies that the pipeline can run on any available agent (an agent can either 
 
 ```
 
-stages \{
+stages {
    // Stages go here
-\}
+}
 
 ```
 
@@ -97,11 +99,11 @@ Defines the various stages of the pipeline, each representing a phase in the sof
 
 ```
 
-stage('Connect To Github') \{
-   steps \{
+stage('Connect To Github') {
+   steps {
       checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/goti13/jenkins-scm.git']])
-   \}
-\}
+   }
+}
 
 ```
 
@@ -109,20 +111,20 @@ stage('Connect To Github') \{
   
 - It specifies that the pipeline should use the 'main' branch.
 
-**Stage 2: Build docker image **
+**Stage 2: Build docker image**
 
 - This stage builds a Docker image named 'dockerfile' using the source code obtained from the GitHub repository.
 - The 'docker build' command is executed using the shell (`sh`)
 
 **Stage 3: Run Docker Container**
 
-stage('Run Docker Container') \{
-   steps \{
-      script \{
+stage('Run Docker Container') {
+   steps {
+      script {
          sh 'docker run -itd --name nginx -p 8081:80 dockerfile'
-      \}
-   \}
-\}
+      }
+   }
+}
 
 
 - This stage runs a Docker container named 'nginx' in detached mode ('-itd').
