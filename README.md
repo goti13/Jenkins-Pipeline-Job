@@ -278,7 +278,49 @@ Congratulations, You have successfully run your first pipeline code.
 ```
 
 
+To access the `index.html` file on our web browser, you need to first edit the inbound rules and open the port we mapped our container to( 8081)
 
+
+<img width="1423" alt="image" src="https://github.com/user-attachments/assets/3023aced-87c3-4d28-b110-6d44bcd2dca8" />
+
+
+We can now access the content of the web browser
+
+```
+
+http://jenkins-ip-address:8081
+
+```
+
+![image](https://github.com/user-attachments/assets/279123a6-2ef5-4809-90b3-90a3ba31cfe2)
+
+**Project Challenges**
+
+While implementing this project, I encountered `permission denied` issue when I triggered the pipeline. The Jenkins pipeline got "permission denied" while trying to connect to the Docker daemon socket". This means that the Jenkins user does not have the necessary permissions to access Docker.
+
+To fix this issue, I ran the commands:
+
+i. Check if docker group exists:
+
+```
+getent group docker
+
+```
+
+If it does not exist, create it:
+
+```
+
+sudo groupadd docker
+
+```
+
+ii. Add the Jenkins user to the docker group:
+
+```
+sudo usermod -aG docker jenkins
+
+```
 
 
 
