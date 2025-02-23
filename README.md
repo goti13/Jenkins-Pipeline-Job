@@ -100,10 +100,10 @@ Defines the various stages of the pipeline, each representing a phase in the sof
 ```
 
 stage('Connect To Github') {
-   steps {
-      checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/goti13/jenkins-scm.git']])
-   }
-}
+            steps {
+                git branch: 'main', url: 'https://github.com/goti13/jenkins-scm.git'
+            }
+        }
 
 ```
 
